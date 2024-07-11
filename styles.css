@@ -45,6 +45,9 @@ form{
 textarea::placeholder{
     color: BDBDBD;
 }
+textarea:focus::placeholder{
+    color: transparent;
+}
 textarea::placeholder, p, #createBtn{
     font-size: 24px;
 }
