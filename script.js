@@ -9,14 +9,13 @@ const notes = [
 //Crear notas:
 function createNotes(){
     let text = document.querySelector("textarea").value;
-    notesLenght = notes.length;
-    console.log(notesLenght);
+    notesLength = notes.length;
     notes.push({content: `${text}`});
-    printNote(text, notesLenght);
+    printNote(text, notesLength);
     document.querySelector("textarea").value = "";
 };
 
-function printNote(text, nlenght){
+function printNote(text, nlength){
     const div = document.createElement('div');
     div.classList.add("note");
     const p = document.createElement('p');
@@ -26,23 +25,59 @@ function printNote(text, nlenght){
     deleteBtn.textContent = "Borrar";
     div.appendChild(p);
     div.appendChild(deleteBtn);
-    const notesContainer = document.querySelector('div.notesContainer');
     let row;
-    if(nlenght % 2 === 0){
+    if(nlength % 2 === 0){
         row = document.createElement('div');
         row.classList.add("row");
         notesContainer.appendChild(row);
-        // row.appendChild(div);
     }else{
         row = document.querySelector('div.row:last-child');
     }
     row.appendChild(div);
 }
 
-//Botones:
+function printNotes(){
+    let text;
+    let row;
+    for(let i = 0; i < notes.length; i ++){
+        text = notes[i].content;
+        const p = document.createElement("p");
+        p.textContent = text;
+        const div = document.createElement("div");
+        div.classList.add("note");
+        const button = document.createElement("button");
+        button.classList.add("delete");
+        button.textContent = "Borrar";
+        div.appendChild(p);
+        div.appendChild(button);
+        if(i % 2 === 0){
+            row = document.createElement("div");
+            row.classList.add("row");
+            notesContainer.appendChild(row);
+        }else{
+            row = document.querySelector("div.row:last-child");
+        }
+        row.appendChild(div);
+    }
+}
+
+//Eliminar notas:
+function deleteNote(){
+
+}
+
+//Botones y otros elementos en el dom:
+const notesContainer = document.querySelector('div.notesContainer');
 createBtn.addEventListener("click", createNotes);
+const deleteBtn = document.querySelectorAll("button.delete");
+for(let i = 0; i < deleteBtn.length; i++){
+    deleteBtn[i].addEventListener("click", deleteNote);
+}
 
 //Form:
 document.querySelector("form").addEventListener("submit", (event) => {
     event.preventDefault();
 })
+
+//Programa:
+printNotes();
