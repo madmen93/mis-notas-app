@@ -1,4 +1,4 @@
-//Datos iniciales:
+// Datos iniciales:
 const notes = [
     {content: "Mi primera nota"},
     {content: "Esta es una nota larga que ocupa más de una línea"},
@@ -9,8 +9,17 @@ const notes = [
 //Crear notas:
 function createNotes(){
     let text = document.querySelector("textarea").value;
-    notesLength = notes.length;
-    notes.push({content: `${text}`});
+    let notesLength;
+    let userData = storedData();
+    if(userData){
+        notesLength = userData.length;
+        userData.push({content: `${text}`});
+        saveNotes(userData);
+    }else{
+        notesLength = notes.length;
+        notes.push({content: `${text}`});
+        saveNotes(notes);
+    }
     printNote(text, notesLength);
     document.querySelector("textarea").value = "";
 };
@@ -40,34 +49,53 @@ function printNote(text, nlength){
 
 //Imprimir notas:
 function printNotes(){
-    let text;
-    let row;
-    for(let i = 0; i < notes.length; i ++){
-        text = notes[i].content;
-        const p = document.createElement("p");
-        p.textContent = text;
-        const div = document.createElement("div");
-        div.classList.add("note");
-        const button = document.createElement("button");
-        button.classList.add("delete");
-        button.setAttribute("Id", i);
-        button.textContent = "Borrar";
-        div.appendChild(p);
-        div.appendChild(button);
-        if(i % 2 === 0){
-            row = document.createElement("div");
-            row.classList.add("row");
-            notesContainer.appendChild(row);
-        }else{
-            row = document.querySelector("div.row:last-child");
+    let userData = storedData();
+    if(userData){
+        for(let i = 0; i < userData.length; i ++){
+            let text = userData[i].content;
+            printNote(text, i);
         }
-        row.appendChild(div);
+    }else{
+        for(let i = 0; i < notes.length; i ++){
+            let text = notes[i].content;
+            printNote(text, i);
+        }
     }
+}
+
+//Crear elementos:
+function newElements(txt, lngth){
+    const div = document.createElement('div');
+    div.classList.add("note");
+    const p = document.createElement('p');
+    p.textContent = txt;
+    const deleteBtn = document.createElement('button');
+    deleteBtn.classList.add("delete");
+    deleteBtn.setAttribute("Id", lngth);
+    deleteBtn.textContent = "Borrar";
+    div.appendChild(p);
+    div.appendChild(deleteBtn);
+    let row;
+    if(lngth % 2 === 0){
+        row = document.createElement('div');
+        row.classList.add("row");
+        notesContainer.appendChild(row);
+    }else{
+        row = document.querySelector('div.row:last-child');
+    }
+    row.appendChild(div);
 }
 
 //Eliminar notas:
 function deleteNote(id){
-    notes.splice(id, 1);
+    let userData = storedData();
+    if(userData){
+        userData.splice(id, 1);
+        saveNotes(userData);
+    }else{
+        notes.splice(id, 1);
+        saveNotes(notes);
+    }
     clear();
     printNotes();
 }
@@ -83,17 +111,22 @@ function clear(){
     }
 }
 
-//Botones y otros elementos en el dom:
+//Guardar notas:
+function saveNotes(arr){
+    localStorage.setItem("sesion", JSON.stringify(arr));
+}
+
+function storedData(){
+    const storedDataUser = localStorage.getItem("sesion");
+    return storedDataUser ? JSON.parse(storedDataUser) : null;
+}
+
+//Manejadores de eventos:
 const notesContainer = document.querySelector('div.notesContainer');
 createBtn.addEventListener("click", createNotes);
-
-//Form:
 document.querySelector("form").addEventListener("submit", (event) => {
     event.preventDefault();
 })
-
-//Programa:
-printNotes();
 const doc = document.querySelector('div.notesContainer');
 doc.addEventListener("click", (event) => {
     if(event.target.className === "delete"){
@@ -101,3 +134,6 @@ doc.addEventListener("click", (event) => {
         deleteNote(id);
     }
 })
+
+//Programa:
+printNotes();
