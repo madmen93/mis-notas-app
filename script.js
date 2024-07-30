@@ -12,33 +12,29 @@ function createNotes(){
     let txt = text.trim();
     let notesLength;
     let userData = storedData();
+    const nota = {content: txt, fecha: new Date()}
     if(txt !== ""){
-        if(userData){
-            notesLength = userData.length;
-            userData.push({content: `${text}`});
-            saveNotes(userData);
-        }else{
-            notesLength = notes.length;
-            notes.push({content: `${text}`});
-            saveNotes(notes);
-        }
-        printNote(text, notesLength);
+        notesLength = userData.length;
+        userData.push(nota);
+        saveNotes(userData);
+        printNote(nota, notesLength);
         document.querySelector("textarea").value = "";
     }
 };
 
 //Imprimir nota nueva:
-function printNote(text, nlength){
+function printNote(nota, nlength){
     const div = document.createElement('div');
     div.classList.add("note");
     const p = document.createElement('p');
-    p.textContent = text;
+    p.textContent = nota.content;
     const deleteBtn = document.createElement('button');
     deleteBtn.classList.add("delete");
     deleteBtn.setAttribute("Id", nlength);
     deleteBtn.textContent = "Borrar";
-    div.appendChild(p);
-    div.appendChild(deleteBtn);
+    const date = document.createElement('p');
+    date.textContent = nota.fecha;
+    div.append(p, date, deleteBtn)
     let row;
     if(nlength % 2 === 0){
         row = document.createElement('div');
@@ -53,29 +49,17 @@ function printNote(text, nlength){
 //Imprimir notas:
 function printNotes(){
     let userData = storedData();
-    if(userData){
-        for(let i = 0; i < userData.length; i ++){
-            let text = userData[i].content;
-            printNote(text, i);
-        }
-    }else{
-        for(let i = 0; i < notes.length; i ++){
-            let text = notes[i].content;
-            printNote(text, i);
-        }
+    for(let i = 0; i < userData.length; i ++){
+        let nota = userData[i]
+        printNote(nota, i);
     }
 }
 
 //Eliminar notas:
 function deleteNote(id){
     let userData = storedData();
-    if(userData){
-        userData.splice(id, 1);
-        saveNotes(userData);
-    }else{
-        notes.splice(id, 1);
-        saveNotes(notes);
-    }
+    userData.splice(id, 1);
+    saveNotes(userData);
     clear();
     printNotes();
 }
@@ -94,7 +78,7 @@ function saveNotes(arr){
 
 function storedData(){
     const storedDataUser = localStorage.getItem("sesion");
-    return storedDataUser ? JSON.parse(storedDataUser) : null;
+    return storedDataUser ? JSON.parse(storedDataUser) : notes;
 }
 
 //Manejadores de eventos:
