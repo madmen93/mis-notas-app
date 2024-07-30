@@ -1,17 +1,18 @@
 // Datos iniciales:
 const notes = [
-    {content: "Mi primera nota"},
-    {content: "Esta es una nota larga que ocupa más de una línea"},
-    {content: "Otra nota de ejemplo"},
-    {content: "Última nota de ejemplo"},
+    // {content: "Mi primera nota"},
+    // {content: "Esta es una nota larga que ocupa más de una línea"},
+    // {content: "Otra nota de ejemplo"},
+    // {content: "Última nota de ejemplo"},
 ];
 
 //Crear notas:
 function createNotes(){
     let text = document.querySelector("textarea").value;
+    let txt = text.trim();
     let notesLength;
     let userData = storedData();
-    if(text !== ""){
+    if(txt !== ""){
         if(userData){
             notesLength = userData.length;
             userData.push({content: `${text}`});
