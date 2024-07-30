@@ -34,7 +34,11 @@ function printNote(nota, nlength){
     deleteBtn.textContent = "Borrar";
     const date = document.createElement('p');
     date.textContent = nota.fecha;
-    div.append(p, date, deleteBtn)
+    const editButton = document.createElement('button');
+    editButton.setAttribute("Id", nlength);
+    editButton.textContent = "Editar";
+    editButton.classList.add("edit");
+    div.append(p, date, deleteBtn, editButton);
     let row;
     if(nlength % 2 === 0){
         row = document.createElement('div');
@@ -53,6 +57,15 @@ function printNotes(){
         let nota = userData[i]
         printNote(nota, i);
     }
+}
+
+//Editar notas:
+function editNote(id){
+    let userData = storedData();
+    userData[id].content = prompt("Por favor, ingrese la nota a editar:")
+    saveNotes(userData);
+    clear();
+    printNotes();
 }
 
 //Eliminar notas:
@@ -92,6 +105,10 @@ doc.addEventListener("click", (event) => {
     if(event.target.className === "delete"){
         const id = event.target.id;
         deleteNote(id);
+    }
+    if(event.target.className === "edit"){
+        const id = event.target.id;
+        editNote(id);
     }
 })
 

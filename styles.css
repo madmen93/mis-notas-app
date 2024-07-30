@@ -24,7 +24,7 @@ body{
     #createBtn{
         margin-top: 8px;
     }
-    .note, .delete{
+    .note, .delete, .edit{
         margin-top: 16px;
     }
     .note{
@@ -70,7 +70,7 @@ textarea, .note{
     background-color: #FFFFFF;
     border: 2px solid #4F4F4F;
 }
-textarea, .note, #createBtn, .delete{
+textarea, .note, #createBtn, .delete, .edit{
     border-radius: 16px;
 }
 textarea::placeholder{
@@ -89,15 +89,16 @@ textarea::placeholder, p, #createBtn{
     background-color: #4F4F4F;
     color: #FFFFFF;
 }
-#createBtn, .delete{
+#createBtn, .delete, .edit{
     border: none;
+    cursor: pointer;
 }
 p{
     line-height: 28.8px;
     color: #333333;
     margin: 0px;
 }
-.delete{
+.delete, .edit{
     padding: 4px 16px;
     width: 83px;
     height: 30px;
