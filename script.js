@@ -34,11 +34,15 @@ function printNote(nota, nlength){
     deleteBtn.textContent = "Borrar";
     const date = document.createElement('p');
     date.textContent = nota.fecha;
+    date.classList.add("date");
     const editButton = document.createElement('button');
     editButton.setAttribute("Id", nlength);
     editButton.textContent = "Editar";
     editButton.classList.add("edit");
-    div.append(p, date, deleteBtn, editButton);
+    const buttons = document.createElement('div');
+    buttons.classList.add("btnContainer");
+    buttons.append(editButton, deleteBtn);
+    div.append(p, date, buttons);
     let row;
     if(nlength % 2 === 0){
         row = document.createElement('div');
