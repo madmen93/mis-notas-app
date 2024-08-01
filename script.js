@@ -98,6 +98,12 @@ function storedData(){
     return storedDataUser ? JSON.parse(storedDataUser) : notes;
 }
 
+//Restablecer:
+function restore(){
+localStorage.clear();
+location.reload();
+}
+
 //Manejadores de eventos:
 const notesContainer = document.querySelector('div.notesContainer');
 createBtn.addEventListener("click", createNotes);
@@ -115,6 +121,7 @@ doc.addEventListener("click", (event) => {
         editNote(id);
     }
 })
+btnRestablecer.addEventListener("click", restore);
 
 //Programa:
 printNotes();

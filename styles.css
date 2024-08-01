@@ -70,7 +70,7 @@ textarea, .note{
     background-color: #FFFFFF;
     border: 2px solid #4F4F4F;
 }
-textarea, .note, #createBtn, .delete, .edit{
+textarea, .note, #createBtn, .delete, .edit, .restablecer{
     border-radius: 16px;
 }
 textarea::placeholder{
@@ -82,14 +82,14 @@ textarea:focus::placeholder{
 textarea::placeholder, p, #createBtn{
     font-size: 24px;
 }
-#createBtn{
+#createBtn, .restablecer{
     width: 343px;
     height: 45px;
     padding: 8px 16px;
     background-color: #4F4F4F;
     color: #FFFFFF;
 }
-#createBtn, .delete, .edit{
+#createBtn, .delete, .edit, .restablecer{
     border: none;
     cursor: pointer;
 }
@@ -113,4 +113,9 @@ p{
 .btnContainer{
     display: flex;
     justify-content: space-between;
+}
+.restablecer{
+   font-size: 18px;
+   width: 200px;
+   align-self: center;
 }
